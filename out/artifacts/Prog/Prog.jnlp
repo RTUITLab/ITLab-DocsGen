@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Prog.jnlp">
+  <information>
+    <title>Prog</title>
+    <vendor>Unknown</vendor>
+    <description>Prog</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Prog.jar" size="10549" download="eager" />
+    <jar href="commons-codec-1.11.jar" size="335042" download="eager" />
+    <jar href="commons-collections4-4.2.jar" size="752798" download="eager" />
+    <jar href="commons-compress-1.18.jar" size="591748" download="eager" />
+    <jar href="commons-math3-3.6.1.jar" size="2213560" download="eager" />
+    <jar href="curvesapi-1.05.jar" size="111927" download="eager" />
+    <jar href="hamcrest-core-1.1.jar" size="76643" download="eager" />
+    <jar href="jackson-core-asl-1.9.13.jar" size="232248" download="eager" />
+    <jar href="jackson-mapper-asl-1.9.13.jar" size="780664" download="eager" />
+    <jar href="json-20160810.jar" size="54495" download="eager" />
+    <jar href="json-simple-1.1.1.jar" size="23931" download="eager" />
+    <jar href="junit-4.10.jar" size="253160" download="eager" />
+    <jar href="poi-4.0.1.jar" size="2718209" download="eager" />
+    <jar href="poi-ooxml-4.0.1.jar" size="1766188" download="eager" />
+    <jar href="poi-ooxml-schemas-4.0.1.jar" size="7771088" download="eager" />
+    <jar href="xmlbeans-3.0.2.jar" size="2572733" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="lab.excel.xls"  name="Prog" />
+  <update check="background"/>
+</jnlp>
