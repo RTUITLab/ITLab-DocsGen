@@ -1,66 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="Prog:jar" />
-    </artifacts-to-build>
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c311525e-37a5-4fc7-8179-69f98f8a932d" name="Default Changelist" comment="" />
+    <list default="true" id="1f5b8200-9d70-4492-a1bb-3934e9bd0df6" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectId" id="1XQu54HHosq45xAtnExuKtrLoUQ" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
+  <component name="ProjectId" id="1ba4eYauiAT9MaaR1RroHNp08ii" />
   <component name="PropertiesComponent">
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="prog" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Мои документы" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -74,64 +40,23 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.xls (1)">
-    <configuration name="JsonClass" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lab.excel.JsonClass" />
-      <module name="Prog" />
+  <component name="RunManager">
+    <configuration name="GeneratexlsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="generatexls" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="lab.excel.*" />
+          <option name="PATTERN" value="com.service.generatexls.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="xls (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lab.excel.xls" />
-      <module name="Prog" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="lab.excel.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="xls" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ua.com.prologistic.excel.xls" />
-      <module name="Prog" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="ua.com.prologistic.excel.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="xls" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="lab.excel.xls" />
-      <module name="Prog" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="lab.excel.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.service.generatexls.GeneratexlsApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.xls (1)" />
-        <item itemvalue="Application.JsonClass" />
-        <item itemvalue="Application.xls" />
+        <item itemvalue="Spring Boot.GeneratexlsApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -140,50 +65,18 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c311525e-37a5-4fc7-8179-69f98f8a932d" name="Default Changelist" comment="" />
-      <created>1580990452248</created>
+      <changelist id="1f5b8200-9d70-4492-a1bb-3934e9bd0df6" name="Default Changelist" comment="" />
+      <created>1588856966161</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1580990452248</updated>
-      <workItem from="1580990456208" duration="3661000" />
-      <workItem from="1581068121650" duration="2162000" />
-      <workItem from="1581239847762" duration="8106000" />
-      <workItem from="1581321077154" duration="6875000" />
-      <workItem from="1581407294870" duration="1007000" />
-      <workItem from="1581588025116" duration="223000" />
-      <workItem from="1581588490940" duration="9188000" />
-      <workItem from="1581927164723" duration="4047000" />
-      <workItem from="1582017032553" duration="70000" />
-      <workItem from="1582017351405" duration="76000" />
-      <workItem from="1582017440151" duration="105000" />
-      <workItem from="1582018096267" duration="283000" />
-      <workItem from="1582021151268" duration="6290000" />
-      <workItem from="1582537496894" duration="5294000" />
-      <workItem from="1582724653842" duration="8982000" />
-      <workItem from="1582796594060" duration="9524000" />
-      <workItem from="1583926106858" duration="10937000" />
-      <workItem from="1584012119131" duration="6489000" />
-      <workItem from="1584099531802" duration="5961000" />
-      <workItem from="1584615672960" duration="9403000" />
-      <workItem from="1584631123092" duration="2078000" />
-      <workItem from="1584693922868" duration="1053000" />
-      <workItem from="1584698071528" duration="458000" />
-      <workItem from="1585379967776" duration="1306000" />
-      <workItem from="1586029167784" duration="865000" />
-      <workItem from="1586081429315" duration="6753000" />
-      <workItem from="1586164913338" duration="3833000" />
-      <workItem from="1586252077852" duration="4682000" />
-      <workItem from="1586258138434" duration="286000" />
+      <updated>1588856966161</updated>
+      <workItem from="1588856970040" duration="1272000" />
+      <workItem from="1588858269422" duration="9459000" />
+      <workItem from="1588877519521" duration="623000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1582017449279">
-      <screen x="0" y="0" width="1536" height="824" />
-    </state>
-    <state x="465" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1582017449279" />
   </component>
 </project>
