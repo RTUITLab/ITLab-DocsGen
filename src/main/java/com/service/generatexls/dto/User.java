@@ -14,8 +14,7 @@ public class User   {
     private String lastName;
 
     public String getFullName() {
-        String firstLastName = firstName + " " + lastName;
-        return firstLastName;
+        return lastName + " " + firstName;
     }
 
 

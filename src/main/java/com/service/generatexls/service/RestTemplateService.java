@@ -32,18 +32,24 @@ public class RestTemplateService {
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<List<Event>> response = restTemplate.exchange(
-                "https://dev.rtuitlab.ru/api/event/docsGen?end=2020-07-04T00:00:00Z&begin=2019-01-01T00:00:00Z",
+                "https://dev.rtuitlab.ru/api/event/docsGen?end=2020-07-04T00:00:00Z&begin=2019-05-01T00:00:00Z",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<Event>>() {
                 });
 
-        HashMap<String, HashMap<Date, String>> data = new HashMap<>();
+        HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
+
+        HashMap<String, ArrayList<Date>> dataEvent = new HashMap<>(); // Название события, Даты события
+
         Set<String> userSet = new HashSet<>();
         ArrayList<Date> dateSet = new ArrayList<>();
 
         for (val event : response.getBody()) {
+            dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
+            val dateEventAndShift = dataEvent.get(event.getTitle());
             for (val shift : event.getShifts()) {
+                dateEventAndShift.add(shift.getBeginTime());
                 dateSet.add(shift.getBeginTime());
                 for (val place : shift.getPlaces()) {
                     for (val participants : place.getParticipants()) {
@@ -58,6 +64,7 @@ public class RestTemplateService {
 
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet1 = workbook.createSheet("Сводка");
+        XSSFSheet sheet2 = workbook.createSheet("События");
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd");
 
         AtomicInteger rowNum = new AtomicInteger();
@@ -70,15 +77,16 @@ public class RestTemplateService {
         });
 
         List<String> list = new ArrayList<String>(userSet);
-
         quickSort(list,0,list.size()-1); // Быстрая сортировка по фамилиям
 
         list.stream().forEach(user -> {
             val userSplitted = user.split(" ");
             val row = sheet1.createRow(rowNum.getAndIncrement());
             AtomicInteger col = new AtomicInteger();
-            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Фамилия
-            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Имя
+            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Фамилия
+            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
+            sheet1.autoSizeColumn(0);
+            sheet1.autoSizeColumn(1);
             dateSet.stream().forEach(date -> {
                 val cell = row.createCell(col.getAndIncrement());
                 val cellValue = data.get(user).get(date);
@@ -86,6 +94,19 @@ public class RestTemplateService {
             });
         });
 
+        rowNum.set(0);
+        colNum.set(0);
+
+        dataEvent.forEach((key,value) -> {                                     // Заполнение второго листа
+            val row = sheet2.createRow(rowNum.getAndIncrement());
+            AtomicInteger col = new AtomicInteger();
+            row.createCell(col.getAndIncrement()).setCellValue(key);
+            sheet2.setColumnWidth(0, 10000);
+            value.forEach(date -> {
+                row.createCell(col.getAndIncrement()).setCellValue(dateFormat.format(date));
+            });
+
+        });
 
         try (FileOutputStream outputStream = new FileOutputStream("сводка.xlsx")) {
             workbook.write(outputStream);
@@ -103,10 +124,10 @@ public class RestTemplateService {
         int i = low, j = high;
         int cur = i - (i - j) / 2;
         while (i < j) {
-            while (i < cur && (list.get(i).split(" ")[1].compareTo(list.get(cur).split(" ")[1])<=0)) {
+            while ((list.get(i).compareTo(list.get(cur))<=0) && i < cur) {
                 i++;
             }
-            while (j > cur && (list.get(cur).split(" ")[1].compareTo(list.get(j).split(" ")[1])<=0)) {
+            while ((list.get(cur).compareTo(list.get(j))<=0) && j > cur) {
                 j--;
             }
             if (i < j) {
@@ -123,4 +144,5 @@ public class RestTemplateService {
         quickSort(list,cur+1, high);
 
     }
+
 }
