@@ -111,11 +111,7 @@ public class RestTemplateService {
 
         });
 
-        try (FileOutputStream outputStream = new FileOutputStream("сводка.xlsx")) {
-            workbook.write(outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         return workbook;
     }
