@@ -13,6 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 public class Event {
     private String title;
-    private EventType eventType;
     private List<Shift> shifts;
 }

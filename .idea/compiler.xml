@@ -8,14 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="generatexls" />
+        <module name="ITLab-DocsGen" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="generatexls" target="1.8" />
+      <module name="ITLab-DocsGen" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ITLab-DocsGen" options="-parameters" />
       <module name="generatexls" options="-parameters" />
     </option>
   </component>
