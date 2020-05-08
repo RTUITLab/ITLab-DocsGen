@@ -27,12 +27,12 @@ public class MainController {
     public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam String end, @RequestParam String begin) throws Exception {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            val a =restTeammateService.getXls(end,begin);
+            val workbook =restTeammateService.getXls(end,begin);
             HttpHeaders header = new HttpHeaders();
             header.setContentType(new MediaType("application", "force-download"));
-            header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ProductTemplate.xlsx");
-            a.write(stream);
-            a.close();
+            header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=svodka.xlsx");
+            workbook.write(stream);
+            workbook.close();
             return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
                     header, HttpStatus.CREATED);
         } catch (Exception e) {
