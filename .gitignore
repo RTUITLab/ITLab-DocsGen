@@ -1,8 +1,6 @@
 HELP.md
 target/
-/service/
-!/service/RestTemplateGetJson.java
-!/service/RestTemplateGenerateXls.java
+
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
