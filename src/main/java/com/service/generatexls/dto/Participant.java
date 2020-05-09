@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-    public class Participant {
+public class Participant {
     private User user;
     private EventRole eventRole;
 }

@@ -10,36 +10,19 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-public class RestTemplateService {
+public class RestTemplateGenerateXls {
     //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
-    @Autowired
-    private RestTemplate restTemplate;
 
+@Autowired
+    RestTemplateGetJson restTemplateGetJson;
     public XSSFWorkbook getXls(String end, String begin) {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "tmWdXwVzGNy94jwMUXYtApadJUFChYuknEUxrkzsyqUBpfKksDNTpRbh7u22EEJx7pE4t4ThjKf");
 
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-        ResponseEntity<List<Event>> response = restTemplate.exchange(
-                "https://dev.rtuitlab.ru/api/event/docsGen?end={end}&begin={begin}",
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<List<Event>>() {
-                },
-                end,
-                begin
-        );
 
         HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
 
@@ -48,7 +31,7 @@ public class RestTemplateService {
         Set<String> userSet = new HashSet<>();
         ArrayList<Date> dateSet = new ArrayList<>();
 
-        for (val event : response.getBody()) {
+        for (val event : restTemplateGetJson.getJson(end,begin)) {
             dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
             val dateEventAndShift = dataEvent.get(event.getTitle());
             for (val shift : event.getShifts()) {
@@ -110,7 +93,6 @@ public class RestTemplateService {
             });
 
         });
-
 
 
         return workbook;
