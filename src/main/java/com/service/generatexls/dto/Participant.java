@@ -12,5 +12,5 @@ import lombok.Setter;
 public class Participant {
     private User user;
     private EventRole eventRole;
-    //tets
+    //test
 }
