@@ -15,23 +15,25 @@ import java.util.List;
 public class RestTemplateGetJson {
     @Autowired
     private RestTemplate restTemplate;
-    @Value("stringUrl")
-    private String stringUrl;
-    @Value("stringKey")
-    private String stringKey;
-    @Value("stringBody")
-    private String stringBody;
+    @Value("${Url}")
+    private String Url;
+    @Value("${Key}")
+    private String Key;
+    @Value("${Body}")
+    private String Body;
+
 
     public List<Event> getJson(String end, String begin) {
+
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(stringBody, stringKey);
+        headers.set(Body, Key);
 
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<List<Event>> response = restTemplate.exchange(
-                stringUrl,
+                Url,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<Event>>() {
@@ -41,6 +43,7 @@ public class RestTemplateGetJson {
 
 
         );
+
         return response.getBody();
     }
 }
