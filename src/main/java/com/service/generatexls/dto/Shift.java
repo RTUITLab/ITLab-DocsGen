@@ -14,6 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class Shift {
     private Date beginTime;
-    private Date endTime;
     private List<Place> places;
 }

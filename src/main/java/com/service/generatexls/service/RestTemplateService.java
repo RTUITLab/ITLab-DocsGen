@@ -22,7 +22,7 @@ public class RestTemplateService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<Event> getJson() {
+    public XSSFWorkbook getXls(String end, String begin) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -32,11 +32,14 @@ public class RestTemplateService {
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<List<Event>> response = restTemplate.exchange(
-                "https://dev.rtuitlab.ru/api/event/docsGen?end=2020-07-04T00:00:00Z&begin=2019-05-01T00:00:00Z",
+                "https://dev.rtuitlab.ru/api/event/docsGen?end={end}&begin={begin}",
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<Event>>() {
-                });
+                },
+                end,
+                begin
+        );
 
         HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
 
@@ -77,7 +80,7 @@ public class RestTemplateService {
         });
 
         List<String> list = new ArrayList<String>(userSet);
-        quickSort(list,0,list.size()-1); // Быстрая сортировка по фамилиям
+        quickSort(list, 0, list.size() - 1); // Быстрая сортировка по фамилиям
 
         list.stream().forEach(user -> {
             val userSplitted = user.split(" ");
@@ -97,7 +100,7 @@ public class RestTemplateService {
         rowNum.set(0);
         colNum.set(0);
 
-        dataEvent.forEach((key,value) -> {                                     // Заполнение второго листа
+        dataEvent.forEach((key, value) -> {                                     // Заполнение второго листа
             val row = sheet2.createRow(rowNum.getAndIncrement());
             AtomicInteger col = new AtomicInteger();
             row.createCell(col.getAndIncrement()).setCellValue(key);
@@ -108,41 +111,38 @@ public class RestTemplateService {
 
         });
 
-        try (FileOutputStream outputStream = new FileOutputStream("сводка.xlsx")) {
-            workbook.write(outputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        return response.getBody();
+
+        return workbook;
     }
 
 
-    private void quickSort(List<String> list,int low, int high) {
+    private void quickSort(List<String> list, int low, int high) {
         if (low >= high)
             return;
         int i = low, j = high;
         int cur = i - (i - j) / 2;
         while (i < j) {
-            while ((list.get(i).compareTo(list.get(cur))<=0) && i < cur) {
+            while ((list.get(i).compareTo(list.get(cur)) <= 0) && i < cur) {
                 i++;
             }
-            while ((list.get(cur).compareTo(list.get(j))<=0) && j > cur) {
+            while ((list.get(cur).compareTo(list.get(j)) <= 0) && j > cur) {
                 j--;
             }
             if (i < j) {
                 String temp = list.get(i);
-                list.set(i,list.get(j));
-                list.set(j,temp);
+                list.set(i, list.get(j));
+                list.set(j, temp);
                 if (i == cur)
                     cur = j;
                 else if (j == cur)
                     cur = i;
             }
         }
-        quickSort(list,low, cur);
-        quickSort(list,cur+1, high);
+        quickSort(list, low, cur);
+        quickSort(list, cur + 1, high);
 
     }
+
 
 }
