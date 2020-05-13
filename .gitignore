@@ -3,7 +3,7 @@ target/
 .gradle
 **/build/
 !src/**/build/
-
+test
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -18,7 +18,7 @@ gradle-app.setting
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
-!**/src/test/**
+**/src/test/**
 
 ### STS ###
 .apt_generated
