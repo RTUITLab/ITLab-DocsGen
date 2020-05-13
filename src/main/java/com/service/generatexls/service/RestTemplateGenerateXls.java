@@ -1,14 +1,10 @@
 package com.service.generatexls.service;
 
-import com.service.generatexls.dto.Event;
 import lombok.val;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -18,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RestTemplateGenerateXls {
     //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
 
-@Autowired
+    @Autowired
     RestTemplateGetJson restTemplateGetJson;
     public XSSFWorkbook getXls(String end, String begin) {
 
