@@ -19,7 +19,7 @@ public class MainController {
     RestTemplateGenerateXls restTeammateService;
 
 
-    @GetMapping("downloadXls")
+    @GetMapping("/api/docsgen/downloadxls")
     public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam String end, @RequestParam String begin) throws Exception {
         try {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
