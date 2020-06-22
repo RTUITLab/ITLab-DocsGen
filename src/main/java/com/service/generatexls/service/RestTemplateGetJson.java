@@ -20,7 +20,7 @@ public class RestTemplateGetJson {
     @Value("${Key}")
     private String Key;
     @Value("${Body}")
-    private String Body;
+    private String Headers;
 
 
     public List<Event> getJson(String end, String begin) {
@@ -28,7 +28,7 @@ public class RestTemplateGetJson {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(Body, Key);
+        headers.set(Headers, Key);
 
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
