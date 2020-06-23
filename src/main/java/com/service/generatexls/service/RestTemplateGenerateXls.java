@@ -14,10 +14,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class RestTemplateGenerateXls {
     //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
 
+
     @Autowired
     RestTemplateGetJson restTemplateGetJson;
-    public XSSFWorkbook getXls(String end, String begin) {
 
+    public XSSFWorkbook getXls(String end, String begin) {
 
 
         HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
@@ -27,7 +28,7 @@ public class RestTemplateGenerateXls {
         Set<String> userSet = new HashSet<>();
         ArrayList<Date> dateSet = new ArrayList<>();
 
-        for (val event : restTemplateGetJson.getJson(end,begin)) {
+        for (val event : restTemplateGetJson.getJson(end, begin)) {
             dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
             val dateEventAndShift = dataEvent.get(event.getTitle());
             for (val shift : event.getShifts()) {

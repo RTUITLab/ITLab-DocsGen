@@ -1,6 +1,8 @@
 package com.service.generatexls.service;
 
 import com.service.generatexls.dto.Event;
+import lombok.NonNull;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -8,6 +10,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +23,8 @@ public class RestTemplateGetJson {
     private String Url;
     @Value("${Key}")
     private String Key;
-    @Value("${Body}")
-    private String Headers;
+    @Value("${Header}")
+    private String Header;
 
 
     public List<Event> getJson(String end, String begin) {
@@ -28,7 +32,7 @@ public class RestTemplateGetJson {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(Headers, Key);
+        headers.set(Header, Key);
 
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
@@ -46,4 +50,5 @@ public class RestTemplateGetJson {
 
         return response.getBody();
     }
+
 }
