@@ -10,6 +10,6 @@
     ```java
     Url = "url dev rtu lab"
     Key = "Key Autorization"
-    Body = "Body Autarization"
+    Header = "Header Autarization"
     springdoc.api-docs.path=/api/Docs-Gen/api-docs.yaml
     springdoc.swagger-ui.path=/api/Docs-Gen/swagger-ui.html

@@ -1,6 +1,7 @@
 package com.service.generatexls.controllers;
 
 import com.service.generatexls.service.RestTemplateGenerateXls;
+import com.service.generatexls.service.RestTemplateGetJson;
 import lombok.val;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
     @Autowired
+    RestTemplateGetJson restTemplateGetJson;
+    @Autowired
     RestTemplateGenerateXls restTeammateService;
-
+    @Autowired
+    RestExceptionHandler restExceptionHandler;
 
     @GetMapping("/api/docsgen/downloadxls")
+
     public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam String end, @RequestParam String begin) throws Exception {
-        try {
+        if(restTemplateGetJson.getJson(end, begin).isEmpty()){
+            return restExceptionHandler.handleEntityNoContentEx();
+        }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             val workbook = restTeammateService.getXls(end, begin);
             HttpHeaders header = new HttpHeaders();
@@ -31,9 +38,6 @@ public class MainController {
             workbook.close();
             return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
                     header, HttpStatus.CREATED);
-        } catch (Exception e) {
 
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 }
