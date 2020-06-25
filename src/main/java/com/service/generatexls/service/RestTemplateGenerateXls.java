@@ -68,8 +68,7 @@ public class RestTemplateGenerateXls {
             AtomicInteger col = new AtomicInteger();
             row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Фамилия
             row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
-            sheet1.autoSizeColumn(0);
-            sheet1.autoSizeColumn(1);
+
             dateSet.stream().forEach(date -> {
                 val cell = row.createCell(col.getAndIncrement());
                 val cellValue = data.get(user).get(date);
