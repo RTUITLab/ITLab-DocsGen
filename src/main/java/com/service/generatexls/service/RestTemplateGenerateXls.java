@@ -63,6 +63,7 @@ public class RestTemplateGenerateXls {
         quickSort(list, 0, list.size() - 1); // Быстрая сортировка по фамилиям
 
         list.stream().forEach(user -> {
+            AtomicInteger a = new AtomicInteger();
             val userSplitted = user.split(" ");
             val row = sheet1.createRow(rowNum.getAndIncrement());
             AtomicInteger col = new AtomicInteger();
@@ -73,7 +74,10 @@ public class RestTemplateGenerateXls {
                 val cell = row.createCell(col.getAndIncrement());
                 val cellValue = data.get(user).get(date);
                 cell.setCellValue(cellValue != null ? cellValue : "-");
+                sheet1.autoSizeColumn(a.getAndIncrement());
+
             });
+
         });
 
         rowNum.set(0);
