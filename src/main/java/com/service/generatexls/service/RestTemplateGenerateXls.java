@@ -63,7 +63,7 @@ public class RestTemplateGenerateXls {
         quickSort(list, 0, list.size() - 1); // Быстрая сортировка по фамилиям
 
         list.stream().forEach(user -> {
-            AtomicInteger a = new AtomicInteger();
+
             val userSplitted = user.split(" ");
             val row = sheet1.createRow(rowNum.getAndIncrement());
             AtomicInteger col = new AtomicInteger();
@@ -71,10 +71,10 @@ public class RestTemplateGenerateXls {
             row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
 
             dateSet.stream().forEach(date -> {
-                val cell = row.createCell(col.getAndIncrement());
+                val cell = row.createCell(col.get());
                 val cellValue = data.get(user).get(date);
                 cell.setCellValue(cellValue != null ? cellValue : "-");
-                sheet1.autoSizeColumn(a.getAndIncrement());
+                sheet1.autoSizeColumn(col.getAndIncrement());
 
             });
 
@@ -83,12 +83,14 @@ public class RestTemplateGenerateXls {
         rowNum.set(0);
         colNum.set(0);
 
-        dataEvent.forEach((key, value) -> {                                     // Заполнение второго листа
+        dataEvent.forEach((key, value) -> {
+            // Заполнение второго листа
             val row = sheet2.createRow(rowNum.getAndIncrement());
             AtomicInteger col = new AtomicInteger();
-            row.createCell(col.getAndIncrement()).setCellValue(key);
-            sheet2.setColumnWidth(0, 10000);
+            row.createCell(col.get()).setCellValue(key);
+            sheet2.autoSizeColumn(col.getAndIncrement());
             value.forEach(date -> {
+                sheet2.autoSizeColumn(col.get());
                 row.createCell(col.getAndIncrement()).setCellValue(dateFormat.format(date));
             });
 
