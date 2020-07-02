@@ -9,89 +9,100 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 public class RestTemplateGenerateXls {
     //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
+    private static final Logger logger = Logger.getLogger(RestTemplateGenerateXls.class.getName());
 
     @Autowired
     RestTemplateGetJson restTemplateGetJson;
+
     public XSSFWorkbook getXls(String end, String begin) {
 
+            HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
 
-
-        HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
-
-        HashMap<String, ArrayList<Date>> dataEvent = new HashMap<>(); // Название события, Даты события
-
-        Set<String> userSet = new HashSet<>();
-        ArrayList<Date> dateSet = new ArrayList<>();
-
-        for (val event : restTemplateGetJson.getJson(end,begin)) {
-            dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
-            val dateEventAndShift = dataEvent.get(event.getTitle());
-            for (val shift : event.getShifts()) {
-                dateEventAndShift.add(shift.getBeginTime());
-                dateSet.add(shift.getBeginTime());
-                for (val place : shift.getPlaces()) {
-                    for (val participants : place.getParticipants()) {
-                        userSet.add(participants.getUser().getFullName());
-                        data.putIfAbsent(participants.getUser().getFullName(), new HashMap<>());
-                        val dateAndShift = data.get(participants.getUser().getFullName());
-                        dateAndShift.put(shift.getBeginTime(), participants.getEventRole().getTitle());
+            HashMap<String, ArrayList<Date>> dataEvent = new HashMap<>(); // Название события, Даты события
+        try {
+            Set<String> userSet = new HashSet<>();
+            ArrayList<Date> dateSet = new ArrayList<>();
+            logger.info("Data is received from json");
+            for (val event : restTemplateGetJson.getJson(end, begin)) {
+                dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
+                val dateEventAndShift = dataEvent.get(event.getTitle());
+                for (val shift : event.getShifts()) {
+                    dateEventAndShift.add(shift.getBeginTime());
+                    dateSet.add(shift.getBeginTime());
+                    for (val place : shift.getPlaces()) {
+                        for (val participants : place.getParticipants()) {
+                            userSet.add(participants.getUser().getFullName());
+                            data.putIfAbsent(participants.getUser().getFullName(), new HashMap<>());
+                            val dateAndShift = data.get(participants.getUser().getFullName());
+                            dateAndShift.put(shift.getBeginTime(), participants.getEventRole().getTitle());
+                        }
                     }
                 }
+                Collections.sort(dateSet);
+                Collections.sort(dateEventAndShift);
             }
-        }
 
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet1 = workbook.createSheet("Сводка");
-        XSSFSheet sheet2 = workbook.createSheet("События");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd");
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet1 = workbook.createSheet("Сводка");
+            XSSFSheet sheet2 = workbook.createSheet("События");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd.yy");
 
-        AtomicInteger rowNum = new AtomicInteger();
-        AtomicInteger colNum = new AtomicInteger();
-        val firstRow = sheet1.createRow(rowNum.getAndIncrement());
-        firstRow.createCell(colNum.getAndIncrement()).setCellValue("Фамилия");
-        firstRow.createCell(colNum.getAndIncrement()).setCellValue("Имя");
-        dateSet.stream().forEach(date -> {
-            firstRow.createCell(colNum.getAndIncrement()).setCellValue(dateFormat.format(date));
-        });
-
-        List<String> list = new ArrayList<String>(userSet);
-        quickSort(list, 0, list.size() - 1); // Быстрая сортировка по фамилиям
-
-        list.stream().forEach(user -> {
-            val userSplitted = user.split(" ");
-            val row = sheet1.createRow(rowNum.getAndIncrement());
-            AtomicInteger col = new AtomicInteger();
-            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Фамилия
-            row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
-            sheet1.autoSizeColumn(0);
-            sheet1.autoSizeColumn(1);
+            logger.info("Filling in the first Xls sheet");
+            AtomicInteger rowNum = new AtomicInteger();
+            AtomicInteger colNum = new AtomicInteger();
+            val firstRow = sheet1.createRow(rowNum.getAndIncrement());
+            firstRow.createCell(colNum.getAndIncrement()).setCellValue("Фамилия");
+            firstRow.createCell(colNum.getAndIncrement()).setCellValue("Имя");
             dateSet.stream().forEach(date -> {
-                val cell = row.createCell(col.getAndIncrement());
-                val cellValue = data.get(user).get(date);
-                cell.setCellValue(cellValue != null ? cellValue : "-");
-            });
-        });
-
-        rowNum.set(0);
-        colNum.set(0);
-
-        dataEvent.forEach((key, value) -> {                                     // Заполнение второго листа
-            val row = sheet2.createRow(rowNum.getAndIncrement());
-            AtomicInteger col = new AtomicInteger();
-            row.createCell(col.getAndIncrement()).setCellValue(key);
-            sheet2.setColumnWidth(0, 10000);
-            value.forEach(date -> {
-                row.createCell(col.getAndIncrement()).setCellValue(dateFormat.format(date));
+                firstRow.createCell(colNum.getAndIncrement()).setCellValue(dateFormat.format(date));
             });
 
-        });
+            List<String> list = new ArrayList<String>(userSet);
+            quickSort(list, 0, list.size() - 1); // Быстрая сортировка по фамилиям
 
+            list.stream().forEach(user -> {
+                val userSplitted = user.split(" ");
+                val row = sheet1.createRow(rowNum.getAndIncrement());
+                AtomicInteger col = new AtomicInteger();
+                row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Фамилия
+                row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
 
-        return workbook;
+                dateSet.stream().forEach(date -> {
+                    val cell = row.createCell(col.getAndIncrement());
+                    val cellValue = data.get(user).get(date);
+                    cell.setCellValue(cellValue != null ? cellValue : "-");
+                    sheet1.autoSizeColumn(col.getAndIncrement());
+                });
+            });
+
+            rowNum.set(0);
+            colNum.set(0);
+
+            logger.info("Filling in the second Xls sheet");
+            dataEvent.forEach((key, value) -> {
+                // Заполнение второго листа
+                val row = sheet2.createRow(rowNum.getAndIncrement());
+                AtomicInteger col = new AtomicInteger();
+                row.createCell(col.get()).setCellValue(key);
+                sheet2.autoSizeColumn(col.getAndIncrement());
+                value.forEach(date -> {
+                    sheet2.autoSizeColumn(col.get());
+                    row.createCell(col.getAndIncrement()).setCellValue(dateFormat.format(date));
+                });
+
+            });
+
+            return workbook;
+    }catch (Exception e){
+        logger.log(Level.SEVERE, "Error", e);
+        return null;
+    }
     }
 
 
@@ -121,6 +132,4 @@ public class RestTemplateGenerateXls {
         quickSort(list, cur + 1, high);
 
     }
-
-
 }
