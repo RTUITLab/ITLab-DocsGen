@@ -27,6 +27,7 @@ class GenerateXlsServiceTest {
         Mockito.`when`(mockRestTemplateGetJson.getJson(end, begin)).thenReturn(ArrayList<Event>())
         val result = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin)
         assert(result.statusCode.value() == 204, { "the answer is not empty" })
+
     }
 
     @Test
