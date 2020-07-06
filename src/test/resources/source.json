@@ -1,0 +1,55 @@
+[
+
+  {
+    "id": "e45c2f88-bd12-4aca-bae7-0c2bb2e03e4b",
+    "title": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "description": "",
+    "address": "dffd",
+    "eventType": {
+      "id": "7a94f97b-878f-4c03-adfc-359f19cea683",
+      "title": "test_event",
+      "description": "test"
+    },
+    "shifts": [
+      {
+        "id": "cc7c06a6-ebaf-4b89-8503-f184739add12",
+        "beginTime": "2020-04-06T15:00:00Z",
+        "endTime": "2020-04-06T15:00:00Z",
+        "description": "",
+        "places": [
+          {
+            "id": "c9c5a2dc-4e98-491d-b498-24d82503258e",
+            "targetParticipantsCount": 0,
+            "description": "",
+            "equipment": [],
+            "participants": [
+              {
+                "user": {
+                  "id": "0979196e-f0f8-4ffb-c1a3-08d61d84f93f",
+                  "firstName": "Tester",
+                  "lastName": "Testerov",
+                  "middleName": "",
+                  "phoneNumber": "+78005553535",
+                  "email": "test@gmail.com",
+                  "properties": [
+                  
+                  ]
+                },
+                "eventRole": {
+                  "id": "da034ed1-602b-4243-a3c4-08d6245a89fd",
+                  "title": "Организатор",
+                  "description": "Организует работу членов лаборатории и несет ответственность за мероприятие"
+                },
+                "creationTime": "2020-04-16T13:47:29.120673Z",
+                "doneTime": "2020-04-16T13:47:32.331482Z"
+              }
+            ],
+            "invited": [],
+            "wishers": [],
+            "unknowns": []
+          }
+        ]
+      }
+    ]
+  }
+]

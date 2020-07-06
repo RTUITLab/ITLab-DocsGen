@@ -1,24 +1,23 @@
 package com.service.generatexls.service;
 
+import com.service.generatexls.dto.Event;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@RequiredArgsConstructor
 @Service
-public class RestTemplateGenerateXls {
+public class GenerateXlsService {
     //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
 
 
-    @Autowired
-    RestTemplateGetJson restTemplateGetJson;
-
-    public XSSFWorkbook getXls(String end, String begin) {
+    public XSSFWorkbook getXls(List<Event> events) {
 
 
         HashMap<String, HashMap<Date, String>> data = new HashMap<>(); // Сотрудник, [Дата, Роль]
@@ -28,7 +27,7 @@ public class RestTemplateGenerateXls {
         Set<String> userSet = new HashSet<>();
         ArrayList<Date> dateSet = new ArrayList<>();
 
-        for (val event : restTemplateGetJson.getJson(end, begin)) {
+        for (val event : events) {
             dataEvent.putIfAbsent(event.getTitle(), new ArrayList<>());
             val dateEventAndShift = dataEvent.get(event.getTitle());
             for (val shift : event.getShifts()) {
@@ -69,7 +68,8 @@ public class RestTemplateGenerateXls {
             AtomicInteger col = new AtomicInteger();
             row.createCell(col.getAndIncrement()).setCellValue(userSplitted[0]); // Фамилия
             row.createCell(col.getAndIncrement()).setCellValue(userSplitted[1]); // Имя
-
+            sheet1.autoSizeColumn(0);
+            sheet1.autoSizeColumn(1);
             dateSet.stream().forEach(date -> {
                 val cell = row.createCell(col.get());
                 val cellValue = data.get(user).get(date);
