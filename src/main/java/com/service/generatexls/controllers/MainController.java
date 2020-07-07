@@ -42,13 +42,16 @@ public class MainController {
         if (events.isEmpty()) {
             return restExceptionHandler.handleEntityNoContentEx();
         }
+        log.info("Request received");
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         val workbook = generateXlsService.getXls(events);
+        log.info("XLS document created");
         HttpHeaders header = new HttpHeaders();
         header.setContentType(new MediaType("xls", "force-download"));
         header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=svodka.xlsx");
         workbook.write(stream);
         workbook.close();
+        log.info("Document sent");
         return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
                 header, HttpStatus.OK);
 
