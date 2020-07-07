@@ -11,10 +11,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-   protected ResponseEntity<ByteArrayResource> handleEntityNoContentEx() {
+    protected ResponseEntity<ByteArrayResource> handleEntityNoContentEx() {
 
-       ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),HttpStatus.NO_CONTENT);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()), HttpStatus.NO_CONTENT);
+    }
+
+    protected ResponseEntity<ByteArrayResource> handleEntityServerIsNotAvailableEx() {
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 

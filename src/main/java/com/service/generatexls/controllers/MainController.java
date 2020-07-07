@@ -1,10 +1,13 @@
 package com.service.generatexls.controllers;
 
-import com.service.generatexls.service.RestTemplateGenerateXls;
+import com.service.generatexls.dto.Event;
+import com.service.generatexls.service.GenerateXlsService;
 import com.service.generatexls.service.RestTemplateGetJson;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,30 +17,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
+@Log4j2
+@RequiredArgsConstructor
 @RestController
 public class MainController {
-    @Autowired
-    RestTemplateGetJson restTemplateGetJson;
-    @Autowired
-    RestTemplateGenerateXls restTeammateService;
-    @Autowired
-    RestExceptionHandler restExceptionHandler;
+    final RestExceptionHandler restExceptionHandler;
+    final GenerateXlsService generateXlsService;
+    final RestTemplateGetJson restTemplateGetJson;
+    private List<Event> ResourceAccessException;
 
     @GetMapping("/api/docsgen/downloadxls")
+    public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam @NonNull String end, @RequestParam @NonNull String begin) throws Exception {
 
-    public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam String end, @RequestParam String begin) throws Exception {
-        if(restTemplateGetJson.getJson(end, begin).isEmpty()){
+        List<Event> events;
+
+        try {
+            events = restTemplateGetJson.getJson(end, begin);
+        } catch (org.springframework.web.client.ResourceAccessException e) {
+            log.error("A TRACE Message", e);
+            return restExceptionHandler.handleEntityServerIsNotAvailableEx();
+        }
+        if (events.isEmpty()) {
             return restExceptionHandler.handleEntityNoContentEx();
         }
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            val workbook = restTeammateService.getXls(end, begin);
-            HttpHeaders header = new HttpHeaders();
-            header.setContentType(new MediaType("application", "force-download"));
-            header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=svodka.xlsx");
-            workbook.write(stream);
-            workbook.close();
-            return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
-                    header, HttpStatus.CREATED);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        val workbook = generateXlsService.getXls(events);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(new MediaType("xls", "force-download"));
+        header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=svodka.xlsx");
+        workbook.write(stream);
+        workbook.close();
+        return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()),
+                header, HttpStatus.OK);
+
 
     }
+
 }
