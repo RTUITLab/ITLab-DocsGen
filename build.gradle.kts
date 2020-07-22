@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.security:spring-security-jwt:1.0.0.RELEASE")
+    implementation("com.auth0:jwks-rsa:0.12.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
