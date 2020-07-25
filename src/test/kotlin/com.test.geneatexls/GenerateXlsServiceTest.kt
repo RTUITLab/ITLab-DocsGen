@@ -16,7 +16,7 @@ import org.springframework.web.client.ResourceAccessException
 import java.io.File
 import java.net.URL
 
-@SpringBootTest(classes = [GeneratexlsApplication::class])
+@SpringBootTest(classes = [GeneratexlsApplication::class], properties = ["UseJwtSecure=false"])
 class GenerateXlsServiceTest {
     val end = "302020-05-04"
     val begin = "302020-01-01"

@@ -13,9 +13,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${IssuerUrl}")
     String issuerUri;
-
+    @Value("${UseJwtSecure}")
+    Boolean useJwtSecure;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        if (!useJwtSecure) {
+            return;
+        }
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
