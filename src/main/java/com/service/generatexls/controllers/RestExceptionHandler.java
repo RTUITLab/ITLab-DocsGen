@@ -22,6 +22,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         return new ResponseEntity<>(new ByteArrayResource(stream.toByteArray()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }
 
 

@@ -20,8 +20,6 @@ public class RestTemplateGetJson {
     private String url;
     @Value("${Key}")
     private String key;
-    @Value("${Header}")
-    private String header;
 
 
     public List<Event> getJson(String end, String begin) {
@@ -29,7 +27,7 @@ public class RestTemplateGetJson {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set(header, key);
+        headers.set("Authorization", key);
 
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
