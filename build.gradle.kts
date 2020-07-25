@@ -28,6 +28,12 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.2.33")
     implementation("org.apache.poi:poi:4.0.0")
     implementation("org.apache.poi:poi-ooxml:4.0.0")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-oauth2-jose") {
+        exclude(group = "com.nimbusds", module = "nimbus-jose-jwt")
+    }
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("com.nimbusds:nimbus-jose-jwt:7.9")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
