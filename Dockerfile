@@ -15,4 +15,4 @@ RUN ln -s /usr/lib/libfontconfig.so.1 /usr/lib/libfontconfig.so && \
     ln -s /lib/libc.musl-x86_64.so.1 /usr/lib/libc.musl-x86_64.so.1
 ENV LD_LIBRARY_PATH /usr/lib
 COPY --from=build /ginfin/ITLab-DocsGen/src/build/libs/*.jar app.jar
-CMD java -jar /app.jar
+CMD java -Xmx100m -jar /app.jar

@@ -111,7 +111,7 @@ public class GenerateXlsService {
 
         }catch (Exception e)
         {
-            log.error("Error");
+            log.error("A TRACE Message", e);
             return null;
         }
     }
