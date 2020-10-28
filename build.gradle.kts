@@ -55,4 +55,8 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-
+tasks.register<Copy>("copyLibToDeploy") {
+    from("build/libs")
+    include("*.jar")
+    into("deploy")
+}
