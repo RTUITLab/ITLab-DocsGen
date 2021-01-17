@@ -20,12 +20,13 @@ import java.net.URL
 class GenerateXlsServiceTest {
     val end = "302020-05-04"
     val begin = "302020-01-01"
+    val eventTypeId = null;
 
     @Test
     fun whenTheEmptyAnswer_returnNoContentStatusCode() {
         val mockRestTemplateGetJson = Mockito.mock(RestTemplateGetJson::class.java)
         Mockito.`when`(mockRestTemplateGetJson.getJson(end, begin)).thenReturn(ArrayList<Event>())
-        val result = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin)
+        val result = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin,eventTypeId)
         assert(result.statusCode.value() == 204, { "the answer is not empty" })
 
     }
@@ -34,7 +35,7 @@ class GenerateXlsServiceTest {
     fun whenBackEndNotAvailable_returnInternalServerError() {
         val mockRestTemplateGetJson = Mockito.mock(RestTemplateGetJson::class.java)
         Mockito.`when`(mockRestTemplateGetJson.getJson(end, begin)).thenThrow(ResourceAccessException::class.java)
-        val result = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin)
+        val result = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin,eventTypeId)
         assert(result.statusCode.value() == 500, { "Back end available" })
     }
 
@@ -49,7 +50,7 @@ class GenerateXlsServiceTest {
         val mockRestTemplateGetJson = Mockito.mock(RestTemplateGetJson::class.java)
         Mockito.`when`(mockRestTemplateGetJson.getJson(end, begin)).thenReturn(list)
         val result = GenerateXlsService().getXls(mockRestTemplateGetJson.getJson(end, begin))
-        val result1 = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin)
+        val result1 = MainController(RestExceptionHandler(), GenerateXlsService(), mockRestTemplateGetJson).downloadTemplate(end, begin,eventTypeId)
         assert(result.workbookType == XSSFWorkbookType.XLSX)
         assert(result1.statusCode.value() == 200)
         assert(result1.headers.contentType == MediaType("xls", "force-download"), { "Service not working fine" })
