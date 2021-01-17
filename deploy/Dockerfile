@@ -9,4 +9,4 @@ ENV LD_LIBRARY_PATH /usr/lib
 COPY ./*.jar app.jar
 EXPOSE 8080
 
-CMD java -jar /app.jar
+CMD java -Xmx100m -jar /app.jar
