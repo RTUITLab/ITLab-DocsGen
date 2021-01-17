@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -29,15 +31,21 @@ public class MainController {
     private List<Event> ResourceAccessException;
 
     @GetMapping("/api/docsgen/downloadxls")
-    public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam @NonNull String end, @RequestParam @NonNull String begin) throws Exception {
+    public ResponseEntity<ByteArrayResource> downloadTemplate(@RequestParam @NonNull String end, @RequestParam @NonNull String begin, @RequestParam(required = false) String[] eventTypeId) throws Exception {
 
         List<Event> events;
+        //ArrayList<Event> sortedEvents = new ArrayList<>();
 
         try {
             events = restTemplateGetJson.getJson(end, begin);
         } catch (org.springframework.web.client.ResourceAccessException e) {
             log.error("A TRACE Message", e);
             return restExceptionHandler.handleEntityServerIsNotAvailableEx();
+        }
+        if (eventTypeId != null) {
+
+            events = events.stream().filter(event -> Arrays.asList(eventTypeId).contains(event.getEventType().getId())).collect(Collectors.toList());
+
         }
         if (events.isEmpty()) {
             return restExceptionHandler.handleEntityNoContentEx();
