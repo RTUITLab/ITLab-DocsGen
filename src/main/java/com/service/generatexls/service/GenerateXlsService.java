@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequiredArgsConstructor
 @Service
 public class GenerateXlsService {
-    //  static String q = "?end=2020-05-04T00:00:00Z&begin=2020-01-01T00:00:00Z";
+
 
 
     public XSSFWorkbook getXls(List<Event> events) {
