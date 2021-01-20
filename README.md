@@ -8,9 +8,9 @@
  Example configuration file
    
     ```java
-    Url = "url dev rtu lab"
-    Key = "Key Autorization"
-    Header = "Header Autarization"
+    EventsBaseAddress = " service ITLab-Back base address"
+    Key = "Key authorization"
+    Header = "Header authorization"
     IssuerUrl = "identity server url"
     springdoc.api-docs.path=/api/Docs-Gen/api-docs.yaml
     springdoc.swagger-ui.path=/api/Docs-Gen/swagger-ui.html
