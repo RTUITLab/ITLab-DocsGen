@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class RestTemplateGetJson {
-
+private final String url="/api/event/docsGen?end={end}&begin={begin}";
     private final RestTemplate restTemplate;
-    @Value("${Url}")
-    private String url;
+    @Value("${EventsBaseAddress}")
+    private String eventsBaseAddress;
     @Value("${Key}")
     private String key;
     @Value("${Header}")
@@ -34,7 +34,7 @@ public class RestTemplateGetJson {
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
         ResponseEntity<List<Event>> response = restTemplate.exchange(
-                url,
+                eventsBaseAddress+url,
                 HttpMethod.GET,
                 entity,
                 new ParameterizedTypeReference<List<Event>>() {
