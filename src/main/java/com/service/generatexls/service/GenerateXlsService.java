@@ -57,7 +57,7 @@ public class GenerateXlsService {
             XSSFWorkbook workbook = new XSSFWorkbook();
             XSSFSheet sheet1 = workbook.createSheet("Сводка");
             XSSFSheet sheet2 = workbook.createSheet("События");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM.dd.yy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
             log.info("Filling in the first Xls sheet");
             AtomicInteger rowNum = new AtomicInteger();
