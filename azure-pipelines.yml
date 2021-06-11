@@ -1,11 +1,33 @@
 trigger:
 - master
+- develop
 
 resources:
 - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  ${{ if notIn(variables['Build.SourceBranchName'], 'master', 'develop') }}:
+    buildImage: false
+    deployService: false
+    deployEnvironment: 'no'
+    imageTags: 'no'
+    serviceName: 'no'
+  ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+    buildImage: true
+    deployService: true
+    deployEnvironment: development
+    imageTags: |
+      $(Build.BuildId)
+      develop
+    serviceName: itlab-develop_docsgen
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    buildImage: true
+    deployService: true
+    deployEnvironment: production
+    imageTags: |
+      $(Build.BuildId)
+      latest
+    serviceName: itlab_docsgen
 
 stages:
 - stage: Build
@@ -35,7 +57,7 @@ stages:
       artifact: itlab-docsgen
 - stage: PackDockerImage
   displayName: Pack docker image
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), ${{variables.buildImage}})
   jobs:
   - job: Pack
     displayName: Pack
@@ -53,16 +75,23 @@ stages:
           command: 'buildAndPush'
           Dockerfile: '$(Pipeline.Workspace)/itlab-docsgen/Dockerfile'
           buildContext: '$(Pipeline.Workspace)/itlab-docsgen'
-          tags: |
-            $(tag)
-            latest
+          tags: ${{variables.imageTags}}
+      - task: Docker@2
+        displayName: Build an image
+        inputs:
+          containerRegistry: 'private rtuitlab registry'
+          repository: 'rtuitlab/itlab-docsgen'
+          command: 'buildAndPush'
+          Dockerfile: '$(Pipeline.Workspace)/itlab-docsgen/Dockerfile'
+          buildContext: '$(Pipeline.Workspace)/itlab-docsgen'
+          tags: ${{variables.imageTags}}
 - stage: UpdateService
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), ${{variables.deployService}})
   jobs:
   - deployment: Deploy
     pool:
       vmImage: 'ubuntu-latest'
-    environment: 'production'
+    environment: ${{variables.deployEnvironment}}
     strategy:
       runOnce:
         deploy:
@@ -72,5 +101,5 @@ stages:
               inputs:
                 sshEndpoint: 'swarm manager'
                 runOptions: 'commands'
-                commands: 'docker service update --image rtuitlab/itlab-docsgen:$(tag) itlab_docsgen'
+                commands: 'docker service update --image registry.rtuitlab.dev/rtuitlab/itlab-docsgen:$(Build.BuildId) itlab_docsgen --with-registry-auth'
                 readyTimeout: '20000'
