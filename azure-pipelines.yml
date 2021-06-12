@@ -101,5 +101,5 @@ stages:
               inputs:
                 sshEndpoint: 'swarm manager'
                 runOptions: 'commands'
-                commands: 'docker service update --image registry.rtuitlab.dev/rtuitlab/itlab-docsgen:$(Build.BuildId) itlab_docsgen --with-registry-auth'
+                commands: 'docker service update --image registry.rtuitlab.dev/rtuitlab/itlab-docsgen:$(Build.BuildId) ${{variables.serviceName}} --with-registry-auth'
                 readyTimeout: '20000'
